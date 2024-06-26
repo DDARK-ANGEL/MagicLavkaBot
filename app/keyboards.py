@@ -35,3 +35,10 @@ chest_open = InlineKeyboardButton(text='ОТКРЫТЬ СУНДУК (50 золо
 chest_cancel = InlineKeyboardButton(text='НАЗАД', callback_data='main_menu')
 
 chest = InlineKeyboardMarkup(inline_keyboard=[[chest_open], [chest_cancel]])
+
+
+seller_sell = InlineKeyboardButton(text='ПРОДАТЬ ПРЕДМЕТЫ', callback_data='sell')
+
+seller_cancel = InlineKeyboardButton(text='НАЗАД', callback_data='main_menu')
+
+seller = InlineKeyboardMarkup(inline_keyboard=[[seller_sell], [seller_cancel]])

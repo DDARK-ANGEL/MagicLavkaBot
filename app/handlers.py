@@ -189,3 +189,8 @@ async def claim(callback: CallbackQuery):
             conn.commit()
             conn.close()
 
+
+@router.callback_query(F.data == 'seller')
+async def seller(callback: CallbackQuery):
+    await callback.message.edit_text('Привет, я скупщик предметов. Готов выкупить твои ненужные вещи по <s>почти</s> выгодной цене!', parse_mode='HTML', reply_markup=kb.seller)
+
