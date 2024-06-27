@@ -227,7 +227,7 @@ async def sell(callback: CallbackQuery):
                     if item == a8:
                         add_bal += a8b
                     
-                    if not item == a9 or a10 or a11:
+                    if item not in (a9, a10, a11):
                         cursor.execute('DELETE FROM inventory WHERE id = ? AND item = ?', (id, item))
                         conn.commit()
     
@@ -239,5 +239,5 @@ async def sell(callback: CallbackQuery):
     conn.commit()
     conn.close()
 
-    await bot.answer_callback_query(callback.id, text=f'Ваши предметы были проданы за {str(add_bal)} золотых, ваш текущий баланс {str(total)} золотых')
+    await bot.answer_callback_query(callback.id, text=f'Ваши предметы были проданы за {str(add_bal)} золотых, ваш текущий баланс {str(total)} золотых', show_alert=True)
 
