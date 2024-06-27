@@ -239,3 +239,5 @@ async def sell(callback: CallbackQuery):
     conn.commit()
     conn.close()
 
+    await bot.answer_callback_query(callback.id, text=f'Ваши предметы были проданы за {str(add_bal)} золотых, ваш текущий баланс {str(total)} золотых')
+
