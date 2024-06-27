@@ -11,6 +11,7 @@ import app.func as fun
 from securee import API_TOKEN
 import asyncio
 from datetime import datetime, timedelta
+from app.items import *
 
 admins = [5643856814, 1976192291]
 
@@ -193,4 +194,48 @@ async def claim(callback: CallbackQuery):
 @router.callback_query(F.data == 'seller')
 async def seller(callback: CallbackQuery):
     await callback.message.edit_text('Привет, я скупщик предметов. Готов выкупить твои ненужные вещи по <s>почти</s> выгодной цене!', parse_mode='HTML', reply_markup=kb.seller)
+
+
+@router.callback_query(F.data == 'sell')
+async def sell(callback: CallbackQuery):
+    id = callback.from_user.id
+
+    conn = sq.connect('main_db.db')
+    cursor = conn.cursor()
+
+    cursor.execute(f'SELECT item FROM inventory WHERE id = {id}')
+    add_bal = 0
+    for item in cursor.fetchall():
+        # for all in all_items:
+            # if not all == money or diamond:
+            #     for items in all:
+                    item = item[0]
+                    if item == a1:
+                        add_bal += a1b
+                    if item == a2:
+                        add_bal += a2b
+                    if item == a3:
+                        add_bal += a3b
+                    if item == a4:
+                        add_bal += a4b
+                    if item == a5:
+                        add_bal += a5b
+                    if item == a6:
+                        add_bal += a6b
+                    if item == a7:
+                        add_bal += a7b
+                    if item == a8:
+                        add_bal += a8b
+                    
+                    if not item == a9 or a10 or a11:
+                        cursor.execute('DELETE FROM inventory WHERE id = ? AND item = ?', (id, item))
+                        conn.commit()
+    
+    cursor.execute(f'SELECT balance FROM users WHERE user_id = {id}')
+    bal = cursor.fetchone()
+    total = add_bal + bal[0]
+
+    cursor.execute('UPDATE users SET balance = ? WHERE user_id = ?', (total, id))
+    conn.commit()
+    conn.close()
 

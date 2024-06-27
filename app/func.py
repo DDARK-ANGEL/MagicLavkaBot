@@ -1,5 +1,6 @@
 import random
 import sqlite3 as sq
+from app.items import *
 
 def randomMagic():
     var = ['огонь', 'вода', 'земля', 'молния', 'воздух', 'тьма', 'свет']
@@ -54,13 +55,6 @@ def randomItem(id):
     elif random_value <= 6000 and random_value > 3000:
         res = 'bronze'
     
-
-    bronze = ['носки бронзовые', 'рубашка бронзовая']
-    silver = ['шапка серебряная', 'тапок серебряный']
-    gold = ['золотая корона', 'золотой сапог']
-    platinum = ['платина 1', 'платина 2']
-    diamond = ['алмаз 1', 'алмаз 2']
-    money = ['0.1 ton']
 
     sha = ['bronze', 'silver', 'gold', 'platinum', 'diamond', 'money']
     
