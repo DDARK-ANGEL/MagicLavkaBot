@@ -10,9 +10,9 @@ main_chest = InlineKeyboardButton(text='СУНДУК', callback_data='chest')
 
 main_claim = InlineKeyboardButton(text='КЛЕЙМ НАГРАД', callback_data='claim')
 
-main_seller = InlineKeyboardButton(text='СКУПЩИК', callback_data='seller')
+main_gildia = InlineKeyboardButton(text='ГИЛЬДИЯ', callback_data='gildia')
 
-main = InlineKeyboardMarkup(inline_keyboard=[[main_profile, main_chest], [main_seller, main_claim], [main_invite]])
+main = InlineKeyboardMarkup(inline_keyboard=[[main_profile, main_chest], [main_gildia, main_claim], [main_invite]])
 
 
 profile_cancel = InlineKeyboardButton(text='НАЗАД', callback_data='main_menu')
@@ -39,6 +39,22 @@ chest = InlineKeyboardMarkup(inline_keyboard=[[chest_open], [chest_cancel]])
 
 seller_sell = InlineKeyboardButton(text='ПРОДАТЬ ПРЕДМЕТЫ', callback_data='sell')
 
-seller_cancel = InlineKeyboardButton(text='НАЗАД', callback_data='main_menu')
+seller_cancel = InlineKeyboardButton(text='НАЗАД', callback_data='gildia')
 
 seller = InlineKeyboardMarkup(inline_keyboard=[[seller_sell], [seller_cancel]])
+
+
+gildia_seller = InlineKeyboardButton(text='СКУПЩИК', callback_data='seller')
+
+gildia_quests = InlineKeyboardButton(text='КВЕСТЫ', callback_data='quests')
+
+gildia_cancel = InlineKeyboardButton(text='НАЗАД', callback_data='main_menu')
+
+gildia = InlineKeyboardMarkup(inline_keyboard=[[gildia_seller, gildia_quests], [gildia_cancel]])
+
+
+quests_cancel = InlineKeyboardButton(text='НАЗАД', callback_data='gildia')
+
+quests_q1 = InlineKeyboardButton(text='Magic Lavka', callback_data='q1')
+
+quests = InlineKeyboardMarkup(inline_keyboard=[[quests_q1], [quests_cancel]])
