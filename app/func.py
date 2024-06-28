@@ -25,7 +25,7 @@ def refPay(id, sum):
     return inviter_id
 
 
-def randomItem(id):
+async def randomItem(id):
     conn = sq.connect('main_db.db')
     cursor = conn.cursor()
 
@@ -83,3 +83,13 @@ def randomItem(id):
     conn.close()
 
     return random_item
+
+
+async def sub(channel_id, bot, id):
+    status = await bot.get_chat_member(chat_id=channel_id, user_id=id)
+    stat = status.status
+
+    if str(status.status) != 'ChatMemberStatus.LEFT':
+        return True
+    else:
+        return False

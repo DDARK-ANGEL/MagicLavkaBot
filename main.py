@@ -6,7 +6,6 @@ from securee import API_TOKEN
 import sqlite3 as sq
 
 from app.handlers import router
-from app.quests import router as qrouter
 # import logging
 
 bot = Bot(token=API_TOKEN)

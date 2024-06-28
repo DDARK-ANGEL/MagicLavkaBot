@@ -161,7 +161,7 @@ async def open_chest(callback: CallbackQuery):
         last_click_times[id] = current_time
 
         try:
-            item = fun.randomItem(id)
+            item = await fun.randomItem(id)
             await bot.answer_callback_query(callback.id, text=f'Вы получили: {item}', show_alert=True)
         except UnboundLocalError:
             return
@@ -256,4 +256,13 @@ async def quests(callback: CallbackQuery):
 @router.callback_query(F.data == 'q1')
 async def q1(callback: CallbackQuery):
     await callback.message.edit_text('Для получения золотых монет:\n1. Подпишитесь на наш новостной канал: https://t.me/MagicalLavka \n2. Нажмите кнопку ниже для проверки подписки.', reply_markup=qkb.q1)
+
+
+@router.callback_query(F.data == 'q1_check')
+async def q1_check(callback: CallbackQuery):
+    id = callback.from_user.id
+    if await fun.sub('-1002213898525', bot, id):
+        pass
+    else:
+        await bot.answer_callback_query(callback.id, text='Похоже что вы не подписаны на канал', show_alert=True)
 
