@@ -2,12 +2,12 @@ import random
 import sqlite3 as sq
 from app.items import *
 
-def randomMagic():
+async def randomMagic():
     var = ['огонь', 'вода', 'земля', 'молния', 'воздух', 'тьма', 'свет']
     return random.choice(var)
 
 
-def refPay(id, sum):
+async def refPay(id, sum):
     conn = sq.connect('main_db.db')
     cursor = conn.cursor()
 
@@ -93,3 +93,24 @@ async def sub(channel_id, bot, id):
         return True
     else:
         return False
+    
+
+async def quest(bot, callback, channel, reward):
+    id = callback.from_user.id
+    if await sub(channel, bot, id):
+        conn = sq.connect('main_db.db')
+        cursor = conn.cursor()
+
+        cursor.execute(f'SELECT balance FROM users WHERE user_id = {id}')
+        bal = cursor.fetchone()
+        total = reward + bal[0]
+
+        cursor.execute('UPDATE users SET balance = ? WHERE user_id = ?', (total, id))
+        conn.commit()
+
+        ref_reward = reward / 10
+        inviter_id = await refPay(id, ref_reward)
+        await bot.send_message(inviter_id, f'Ваш ученик выполнил задание Гильдии, вы получили {str(ref_reward)} золотых!')
+        await bot.answer_callback_query(callback.id, text=f'Задание успешно выполнено, вы получили {str(reward)} золотых!', show_alert=True)
+    else:
+        await bot.answer_callback_query(callback.id, text='Похоже что вы не подписаны на канал', show_alert=True)

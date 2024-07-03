@@ -62,7 +62,7 @@ async def BotStart(message: Message, state: FSMContext, command: CommandObject):
             conn.commit()
             conn.close()
 
-            inviter_id = fun.refPay(id, 200)
+            inviter_id = await fun.refPay(id, 200)
             await bot.send_message(inviter_id, 'У вас новый ученик, вы получили 200 золотых!', reply_markup=kb.newRef)
 
         await state.set_state(fs.reg.wallet)
@@ -113,7 +113,7 @@ async def write_wallet(message: Message, state: FSMContext):
     conn = sq.connect('main_db.db')
     cursor = conn.cursor()
 
-    mag = fun.randomMagic()
+    mag = await fun.randomMagic()
 
     cursor.execute('INSERT INTO users VALUES (?, ?, 0, ?, 0, 0)', (id, data['wallet'], mag))
     conn.commit()
@@ -260,9 +260,5 @@ async def q1(callback: CallbackQuery):
 
 @router.callback_query(F.data == 'q1_check')
 async def q1_check(callback: CallbackQuery):
-    id = callback.from_user.id
-    if await fun.sub('-1002213898525', bot, id):
-        pass
-    else:
-        await bot.answer_callback_query(callback.id, text='Похоже что вы не подписаны на канал', show_alert=True)
+    await fun.quest(bot, callback, '-1002213898525', 300)
 
