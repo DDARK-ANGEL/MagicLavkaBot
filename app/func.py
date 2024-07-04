@@ -14,7 +14,7 @@ async def refPay(id, sum):
     cursor.execute(f'SELECT ref FROM referal WHERE user_id = {id}')
     inviter_id = cursor.fetchone()[0]
 
-    if not inviter_id == 'NULL':
+    if not inviter_id is None:
         cursor.execute(f'SELECT balance FROM users WHERE user_id = {inviter_id}')
         inviter_bal = cursor.fetchone()[0]
 
@@ -97,20 +97,35 @@ async def sub(channel_id, bot, id):
 
 async def quest(bot, callback, channel, reward):
     id = callback.from_user.id
-    if await sub(channel, bot, id):
-        conn = sq.connect('main_db.db')
-        cursor = conn.cursor()
 
-        cursor.execute(f'SELECT balance FROM users WHERE user_id = {id}')
-        bal = cursor.fetchone()
-        total = reward + bal[0]
+    conn = sq.connect('main_db.db')
+    cursor = conn.cursor()
 
-        cursor.execute('UPDATE users SET balance = ? WHERE user_id = ?', (total, id))
-        conn.commit()
+    cursor.execute('''
+                   CREATE TABLE IF NOT EXISTS quests (
+                   id INTEGER,
+                   channel TEXT
+                   )''')
+    conn.commit()
 
-        ref_reward = reward / 10
-        inviter_id = await refPay(id, ref_reward)
-        await bot.send_message(inviter_id, f'Ваш ученик выполнил задание Гильдии, вы получили {str(ref_reward)} золотых!')
-        await bot.answer_callback_query(callback.id, text=f'Задание успешно выполнено, вы получили {str(reward)} золотых!', show_alert=True)
+    cursor.execute(f'SELECT channel FROM quests WHERE id = ? AND channel = ?', (id, channel))
+    if cursor.fetchone() is None:
+        if await sub(channel, bot, id):
+            cursor.execute(f'SELECT balance FROM users WHERE user_id = {id}')
+            bal = cursor.fetchone()
+            total = reward + bal[0]
+            cursor.execute('UPDATE users SET balance = ? WHERE user_id = ?', (total, id))
+            conn.commit()
+            ref_reward = reward / 10
+            inviter_id = await refPay(id, ref_reward)
+            if not inviter_id is None:
+                await bot.send_message(inviter_id, f'Ваш ученик выполнил задание Гильдии, вы получили {str(ref_reward)} золотых!')
+            await bot.answer_callback_query(callback.id, text=f'Задание успешно выполнено, вы получили {str(reward)} золотых!', show_alert=True)
+            
+            cursor.execute('INSERT INTO quests VALUES (?, ?)', (id, channel))
+            conn.commit()
+        else:
+            await bot.answer_callback_query(callback.id, text='Похоже что вы не подписаны на канал', show_alert=True)
     else:
-        await bot.answer_callback_query(callback.id, text='Похоже что вы не подписаны на канал', show_alert=True)
+        await bot.answer_callback_query(callback.id, text='Вы уже выполнили этот квест!', show_alert=True)
+    conn.close()
