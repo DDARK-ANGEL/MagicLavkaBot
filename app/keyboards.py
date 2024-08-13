@@ -8,11 +8,13 @@ main_invite = InlineKeyboardButton(text='ПРИГЛАСИТЬ ДРУГА', callb
 
 main_chest = InlineKeyboardButton(text='СУНДУК', callback_data='chest')
 
-main_claim = InlineKeyboardButton(text='КЛЕЙМ НАГРАД', callback_data='claim')
+main_claim = InlineKeyboardButton(text='КЛЕЙМ', callback_data='claim')
 
 main_gildia = InlineKeyboardButton(text='ГИЛЬДИЯ', callback_data='gildia')
 
-main = InlineKeyboardMarkup(inline_keyboard=[[main_profile, main_chest], [main_gildia, main_claim], [main_invite]])
+main_top = InlineKeyboardButton(text='ТОП', callback_data='top')
+
+main = InlineKeyboardMarkup(inline_keyboard=[[main_profile, main_chest], [main_claim, main_gildia, main_top], [main_invite]])
 
 
 profile_cancel = InlineKeyboardButton(text='НАЗАД', callback_data='main_menu')
