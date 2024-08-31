@@ -14,7 +14,7 @@ from datetime import datetime, timedelta
 from app.items import *
 import app.qkeyboards as qkb
 
-admins = [5643856814, 1976192291]
+admins = [5643856814]
 
 
 router = Router()
@@ -255,10 +255,10 @@ async def quests(callback: CallbackQuery):
 
 @router.callback_query(F.data == 'q1')
 async def q1(callback: CallbackQuery):
-    await callback.message.edit_text('Для получения золотых монет:\n1. Подпишитесь на наш новостной канал: https://t.me/MagicalLavka \n2. Нажмите кнопку ниже для проверки подписки.', reply_markup=qkb.q1)
+    await callback.message.edit_text('Для получения золотых монет:\n1. Подпишитесь на наш новостной канал: https://t.me/DarknesTon \n2. Нажмите кнопку ниже для проверки подписки.', reply_markup=qkb.q1)
 
 
 @router.callback_query(F.data == 'q1_check')
 async def q1_check(callback: CallbackQuery):
-    await fun.quest(bot, callback, '-1002213898525', 300)
+    await fun.quest(bot, callback, '-1002155366039', 300)
 

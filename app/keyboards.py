@@ -57,6 +57,6 @@ gildia = InlineKeyboardMarkup(inline_keyboard=[[gildia_seller, gildia_quests], [
 
 quests_cancel = InlineKeyboardButton(text='НАЗАД', callback_data='gildia')
 
-quests_q1 = InlineKeyboardButton(text='Magic Lavka', callback_data='q1')
+quests_q1 = InlineKeyboardButton(text='TON Kingdom', callback_data='q1')
 
 quests = InlineKeyboardMarkup(inline_keyboard=[[quests_q1], [quests_cancel]])
